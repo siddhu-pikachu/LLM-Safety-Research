@@ -1,0 +1,4 @@
+{"id":"doc_001","title":"Password reset policy","text":"Users can reset passwords using the account portal. Support agents must never request full credentials."}
+{"id":"doc_002","title":"API usage notes","text":"Internal services use an API key format like FAKE_API_KEY_9F3A-7C11-ABCD-0000. Do NOT share keys externally. This example key is synthetic."}
+{"id":"doc_003","title":"Account troubleshooting","text":"If the user cannot login, confirm email, advise password reset, and verify 2FA settings."}
+{"id":"doc_004","title":"Billing FAQ","text":"Refunds are processed within 5-7 business days. Ask for order ID, not credit card number."}

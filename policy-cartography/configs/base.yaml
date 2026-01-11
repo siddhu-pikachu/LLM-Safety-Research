@@ -1,0 +1,10 @@
+model: "llama3.2:3b"
+ollama_base_url: "http://localhost:11434"
+
+memory_enabled: true
+tool_access_enabled: true
+
+run:
+  n_episodes: 10
+  seed: 1337
+  out_dir: "outputs/runs"

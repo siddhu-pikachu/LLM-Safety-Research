@@ -1,0 +1,96 @@
+# =========================
+# Python / packaging
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+.venv/
+venv/
+ENV/
+env/
+.env
+.env.*
+
+# build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# =========================
+# Tests / tooling caches
+# =========================
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.pytype/
+.pyre/
+
+# =========================
+# Jupyter / notebooks
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# OS junk
+# =========================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# =========================
+# IDEs
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# Outputs / experiment artifacts
+# =========================
+outputs/
+runs/
+artifacts/
+wandb/
+mlruns/
+
+# local logs
+*.log
+
+# =========================
+# garak (local reports, logs)
+# =========================
+.garak/
+.xdg_config/
+**/garak_runs/
+**/garak.log
+
+# =========================
+# Data
+# =========================
+# Keep small synthetic KB, ignore everything else
+data/*
+!data/kb.jsonl
+
+datasets/
+data_raw/
+data_private/
+
+# common large data formats
+*.csv
+*.tsv
+*.jsonl.gz
+*.parquet
+*.arrow
+*.feather
+*.h5
+*.npz
+*.npy
+*.pt
+*.pth
+*.ckpt
+*.bin

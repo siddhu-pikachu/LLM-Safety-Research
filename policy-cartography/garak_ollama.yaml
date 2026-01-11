@@ -1,0 +1,16 @@
+system:
+  verbose: 1
+
+run:
+  generations: 1
+
+plugins:
+  target_type: ollama
+  target_name: "llama3.2:3b"
+  probe_spec: "promptinject,apikey"
+
+  generators:
+    ollama:
+      OllamaGenerator:
+        host: "127.0.0.1:11434"
+        timeout: 120
