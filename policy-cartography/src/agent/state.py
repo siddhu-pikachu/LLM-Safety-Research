@@ -7,6 +7,10 @@ class AgentState:
     memory_enabled: bool = True
     tool_access_enabled: bool = True
 
+    # NEW:
+    trust_profile: str = "M0"          # "M0", "M1", "M2", "M3"
+    tool_trust: str = "untrusted"      # "trusted" or "untrusted"
+
     # conversation transcript as a list of {"role": "...", "content": "..."}
     history: List[Dict[str, Any]] = field(default_factory=list)
 

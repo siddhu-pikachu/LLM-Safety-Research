@@ -5,6 +5,6 @@ memory_enabled: true
 tool_access_enabled: true
 
 run:
-  n_episodes: 10
+  n_episodes: 25
   seed: 1337
   out_dir: "outputs/runs"
