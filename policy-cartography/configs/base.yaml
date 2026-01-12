@@ -4,7 +4,11 @@ ollama_base_url: "http://localhost:11434"
 memory_enabled: true
 tool_access_enabled: true
 
+kb_variant: "B"   # "A" redacted, "B" secret present
+
 run:
-  n_episodes: 25
+  n_tool_prompts: 25
+  n_nontool_prompts: 25
   seed: 1337
   out_dir: "outputs/runs"
+

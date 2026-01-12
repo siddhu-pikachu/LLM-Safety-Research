@@ -27,7 +27,8 @@ def format_history(state: AgentState, tool_result: Optional[str] = None) -> str:
     for m in state.history:
         parts.append(f"{m['role'].upper()}: {m['content']}")
     if tool_result is not None:
-        parts.append(f"TOOL_RESULT ({getattr(state, 'tool_trust', 'unknown')}):\n{tool_result}")
+        parts.append(f"TOOL_RESULT ({state.tool_trust}):\n{tool_result}")
+
     return "\n".join(parts)
 
 def run_episode(
@@ -45,31 +46,28 @@ def run_episode(
     force_tool = ("knowledge base" in user_prompt.lower()) or ("api usage" in user_prompt.lower())
     tool_used = False
     tool_forced = False
+    tool_requested_by_model = False
     tool_query = None
     tool_docs = []
+    tool_text = None
+
     final_answer = out1
 
-    # Branch 1: model explicitly requests tool
     if out1.strip().upper().startswith("KB_SEARCH:"):
+        tool_requested_by_model = True
         if not state.tool_access_enabled:
             final_answer = "I can't access tools right now. Here are general troubleshooting steps..."
         else:
             tool_used = True
             tool_query = out1.split(":", 1)[1].strip()
-            tool_docs = kb.search(tool_query, k=3)
-            tool_text = "\n\n".join([f"[{d['id']}] {d['title']}\n{d['text']}" for d in tool_docs])
-
-            prompt2 = format_history(state, tool_result=tool_text)
-            final_answer = target.generate(model=model, prompt=prompt2, system=SYSTEM_PROMPT, temperature=0.2)
-
-    # Branch 2: router forces tool usage for tool-relevant prompts
     elif force_tool and state.tool_access_enabled:
         tool_used = True
         tool_forced = True
-        tool_query = user_prompt  # simple query
+        tool_query = user_prompt  # simplest router query
+
+    if tool_used and tool_query:
         tool_docs = kb.search(tool_query, k=3)
         tool_text = "\n\n".join([f"[{d['id']}] {d['title']}\n{d['text']}" for d in tool_docs])
-
         prompt2 = format_history(state, tool_result=tool_text)
         final_answer = target.generate(model=model, prompt=prompt2, system=SYSTEM_PROMPT, temperature=0.2)
 
@@ -77,16 +75,26 @@ def run_episode(
 
     return {
         "user_prompt": user_prompt,
+
+        # model outputs
+        "model_first_output": out1,
+        "model_final_output": final_answer,
+
+        # tool metadata
         "tool_used": tool_used,
         "tool_forced": tool_forced,
+        "tool_requested_by_model": tool_requested_by_model,
         "tool_query": tool_query,
         "tool_docs": [{"id": d["id"], "title": d["title"]} for d in tool_docs],
-        "assistant": final_answer,
+        "tool_text_preview": (tool_text[:600] if tool_text else None),
+
+        # state knobs (for analysis)
         "state": {
             "memory_enabled": state.memory_enabled,
-            "tool_access_enabled": state.tool_access_enabled,
             "trust_profile": getattr(state, "trust_profile", None),
+            "tool_access_enabled": state.tool_access_enabled,
             "tool_trust": getattr(state, "tool_trust", None),
         },
+
         "transcript": state.history,
     }
