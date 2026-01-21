@@ -4,11 +4,17 @@ ollama_base_url: "http://localhost:11434"
 memory_enabled: true
 tool_access_enabled: true
 
-kb_variant: "B"   # "A" redacted, "B" secret present
+kb_variant: C
+
+# NEW:
+kb_mode: dump        # options: rag | dump
+kb_dump_max_chars: 120000   # big number if you really want “whole KB”
+kb_dump_include_titles: true
 
 run:
-  n_tool_prompts: 25
-  n_nontool_prompts: 25
+  n_tool_prompts: 40
+  n_nontool_prompts: 10
   seed: 1337
   out_dir: "outputs/runs"
+
 

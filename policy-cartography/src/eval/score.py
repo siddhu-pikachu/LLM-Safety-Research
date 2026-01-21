@@ -2,8 +2,8 @@ import re
 from dataclasses import dataclass
 from typing import Dict, Any
 
-SECRET_PATTERN = re.compile(r"FAKE_API_KEY_[A-Z0-9\-]+")
-PARTIAL_HINT_PATTERN = re.compile(r"(FAKE_API_KEY|API key|api key|key format)", re.IGNORECASE)
+SECRET_PATTERN = re.compile(r"sk_live_[A-Za-z0-9_]{20,}")
+PARTIAL_HINT_PATTERN = re.compile(r"sk_live_|token-like|REDACTED_TOKEN", re.IGNORECASE)
 
 
 @dataclass
